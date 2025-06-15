@@ -11,17 +11,22 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": quest.errors[:name].none?, "border-red-400 focus:outline-red-600": quest.errors[:name].any?}] %>
-  </div>
+  <%# <div class="my-5"> %>
+    <%# <%= form.label :name %>
+    <%# <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": quest.errors[:name].none?, "border-red-400 focus:outline-red-600": quest.errors[:name].any?}] %>
+  <%# </div> %>
 
-  <div class="my-5 flex items-center gap-2">
-    <%= form.label :status %>
-    <%= form.checkbox :status, class: ["block shadow-sm rounded-md border order-first h-5 w-5", {"border-gray-400 focus:outline-blue-600": quest.errors[:status].none?, "border-red-400 focus:outline-red-600": quest.errors[:status].any?}] %>
-  </div>
+  <%# <div class="my-5 flex items-center gap-2"> %>
+    <%# <%= form.label :status %>
+    <%# <%= form.checkbox :status, class: ["block shadow-sm rounded-md border order-first h-5 w-5", {"border-gray-400 focus:outline-blue-600": quest.errors[:status].none?, "border-red-400 focus:outline-red-600": quest.errors[:status].any?}] %>
+  <%# </div> %>
 
-  <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  <%# <div class="inline"> %>
+    <%# <%= form.submit class: "px-3.5 py-2.5 rounded-md font-bold tracking-wide bg-[#D35400] hover:bg-[#E67E22] text-white block font-medium" %>
+  <%# </div> %>
+
+  <div class="my-1 pt-4 pb-1 flex content-center items-center justify-between space-x-4">
+    <%= form.text_field :name, class: ["block shadow-sm rounded-md border px-3 py-2 w-full", {"border-gray-400 focus:outline-blue-600": quest.errors[:name].none?, "border-red-400 focus:outline-red-600": quest.errors[:name].any?}], data: { testid: "Add Quest" } %>
+    <%= form.submit "+ Add Quest", class: "px-3.5 py-2.5 rounded-md font-bold tracking-wide bg-[#D35400] hover:bg-[#E67E22] text-white block font-medium", data: {testid: "Add Quest Button"} %>
   </div>
 <% end %>

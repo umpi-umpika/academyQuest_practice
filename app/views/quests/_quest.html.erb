@@ -1,10 +1,23 @@
-<div id="<%= dom_id quest %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Name:</strong>
-    <%= quest.name %>
+<li class="flex items-center" data-controller="quest" data-quest-id-value="<%= quest.id %>" data-testid="quest_<%= quest.id %>">
+  <input
+    type="checkbox"
+    class="form-checkbox h-5 w-5 ml-4 rounded-lg text-blue-500 border-gray-300 focus:ring-blue-500 transition duration-150 ease-in-out"
+    <%= quest.status? ? "checked" : "" %>
+    data-quest-target="checkbox"
+    data-action="change->quest#toggle">
+
+  <div class="px-4 py-2">
+    <span data-quest-target="text" class="<%= quest.status? ? 'line-through text-gray-500' : 'text-gray-900' %>">
+      <p class="truncate max-w-[calc(60vw)]"> 
+        <%= quest.name %>
+      </p>
+    </span>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Status:</strong>
-    <%= quest.status? ? "Yes" : "No" %>
-  </div>
-</div>
+  
+
+  <%# <%= link_to quest, class: "w-full px-4 py-2 cursor-pointer hover:font-bold text-lg transition-all duration-150 ease-in-out" do %>
+      <%# <span data-quest-target="text" class="<%= quest.status? ? 'line-through text-gray-500' : 'text-gray-900' %>
+      <%# <%= quest.name %>
+    <%# </span> %>
+  <%# <% end %>
+</li>
