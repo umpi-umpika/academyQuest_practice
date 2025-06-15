@@ -4,6 +4,7 @@ class QuestsController < ApplicationController
   # GET /quests or /quests.json
   def index
     @quests = Quest.all
+    @quest = Quest.new
   end
 
   # GET /quests/1 or /quests/1.json
@@ -25,7 +26,7 @@ class QuestsController < ApplicationController
 
     respond_to do |format|
       if @quest.save
-        format.html { redirect_to @quest, notice: "Quest was successfully created." }
+        format.html { redirect_to quests_path, notice: "Quest was successfully created." }
         format.json { render :show, status: :created, location: @quest }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +40,7 @@ class QuestsController < ApplicationController
     respond_to do |format|
       if @quest.update(quest_params)
         format.html { redirect_to @quest, notice: "Quest was successfully updated." }
-        format.json { render :show, status: :ok, location: @quest }
+        format.json { head :ok }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @quest.errors, status: :unprocessable_entity }
