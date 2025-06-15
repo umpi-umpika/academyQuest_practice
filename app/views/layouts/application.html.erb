@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Academy Quest Practice" %></title>
+    <title><%= content_for(:title) || "Academy Quest 03" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -21,9 +21,15 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
+  <style>
+    * {
+      transition: all 0.1s ease-in-out;
+    }
+  </style>
 
   <body>
     <main class="container mx-auto mt-28 px-5 flex">
+      <img src="<%= asset_path('FH_BG01.png') %>" alt="background image" class="sm:max-w-[78%] max-w-[108%] fixed sm:left-[-64px] left-[-48px] bottom-0 m-0 p-0 opacity-15 pointer-events-none select-none z-[-1]">
       <%= yield %>
     </main>
   </body>
