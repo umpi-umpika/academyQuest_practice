@@ -4,40 +4,54 @@ require 'factory_bot'
 World(FactoryBot::Syntax::Methods)
 ActionController::Base.allow_rescue = false
 
-Capybara.register_driver :selenium_chrome_safe do |app|
+chrome_args = [
+  '--disable-web-security',
+  '--ignore-certificate-errors',
+  '--no-sandbox',
+  '--disable-dev-shm-usage',
+  '--window-size=1920,1080'
+]
+
+if RUBY_PLATFORM.include?('darwin') && ENV['DEBUG'] != 'true'
+  chrome_args += [
+    '--disable-gpu',
+    '--disable-software-rasterizer',
+    '--disable-background-timer-throttling',
+    '--disable-backgrounding-occluded-windows',
+    '--disable-renderer-backgrounding',
+    '--disable-features=TranslateUI',
+    '--disable-ipc-flooding-protection',
+    '--force-color-profile=srgb'
+  ]
+end
+
+Capybara.register_driver :selenium_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-
-  options.add_argument('--disable-web-security')
-  options.add_argument('--ignore-certificate-errors')
-  options.add_argument('--no-sandbox')
-  options.add_argument('--disable-dev-shm-usage')
-  options.add_argument('--screen-size=1200x720')
-
+  chrome_args.each { |arg| options.add_argument(arg) }
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 
-Capybara.register_driver :selenium_chrome_headless_safe do |app|
+Capybara.register_driver :selenium_chrome_headless do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-
   options.add_argument('--headless=new')
-  options.add_argument('--disable-web-security')
-  options.add_argument('--ignore-certificate-errors')
-  options.add_argument('--no-sandbox')
-  options.add_argument('--disable-dev-shm-usage')
-  options.add_argument('--screen-size=1200x720')
-
+  chrome_args.each { |arg| options.add_argument(arg) }
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
+
+driver = ENV['DEBUG'] == 'true' ? :selenium_chrome : :selenium_chrome_headless
+
+Selenium::WebDriver.logger.level = :error if ENV['DEBUG'] == 'true'
 
 Capybara.configure do |config|
-  config.default_driver = :selenium_chrome_headless_safe
-  config.javascript_driver = :selenium_chrome_headless_safe
+  config.default_driver = driver
+  config.javascript_driver = driver
   config.default_max_wait_time = 10
 end
 
-if ENV['DEBUG'] == 'true'
-  Capybara.default_driver = :selenium_chrome_safe
-  Capybara.javascript_driver = :selenium_chrome_safe
-  Selenium::WebDriver.logger.level = :error
-  puts ":mag: Debug mode enabled - using visible Chrome (logging only errors)"
+Before do
+  DatabaseCleaner.start
+end
+
+After do
+  DatabaseCleaner.clean
 end
